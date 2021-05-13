@@ -3,9 +3,12 @@ package de.esk.appointment.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import de.esk.appointment.domain.VaccinceCenter;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
@@ -18,10 +21,10 @@ public class VaccineCenterFactory {
 
     public VaccineCenterFactory() {
         final ObjectMapper om = new ObjectMapper(new YAMLFactory());
-        final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        final File file = new File(classLoader.getResource("vaccine-center-config.yml").getFile());
+        final var resourceAsStream = getClass().getClassLoader().getResourceAsStream("vaccine-center-config.yml");
         try {
-            configFile = om.readValue(file, ConfigFile.class);
+            final var config = IOUtils.toString(resourceAsStream, Charset.defaultCharset());
+            configFile = om.readValue(config, ConfigFile.class);
         } catch (IOException e) {
             System.out.println("Failed to load vaccine center configuration");
         }
