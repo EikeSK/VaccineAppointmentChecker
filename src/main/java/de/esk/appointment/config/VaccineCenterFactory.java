@@ -5,9 +5,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import de.esk.appointment.domain.VaccinceCenter;
 import org.apache.commons.io.IOUtils;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.List;
 

@@ -1,18 +1,18 @@
 package de.esk.appointment.domain;
 
 public class CenterCheckResult {
-    private final int availableAppointments;
+    private final String nextAvailableSlot;
     private final String bookingUrl;
     private final String centerName;
 
-    public CenterCheckResult(int availableAppointments, String bookingUrl, String centerName) {
-        this.availableAppointments = availableAppointments;
+    public CenterCheckResult(String nextAvailableSlot, String bookingUrl, String centerName) {
+        this.nextAvailableSlot = nextAvailableSlot;
         this.bookingUrl = bookingUrl;
         this.centerName = centerName;
     }
 
-    public int getAvailableAppointments() {
-        return availableAppointments;
+    public String getNextAvailableSlot() {
+        return nextAvailableSlot;
     }
 
     public String getBookingUrl() {

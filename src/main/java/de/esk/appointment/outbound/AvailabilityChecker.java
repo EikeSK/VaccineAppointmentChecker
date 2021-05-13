@@ -53,7 +53,7 @@ public class AvailabilityChecker {
     }
 
     private CenterCheckResult createResult(CenterResponse resp, VaccinceCenter center) {
-        return new CenterCheckResult(resp.getTotal(), center.getBookingUrl(), center.getName());
+        return new CenterCheckResult(resp.getNextSlot(), center.getBookingUrl(), center.getName());
     }
 
     private String createUrlFor(VaccinceCenter center) {
@@ -64,16 +64,22 @@ public class AvailabilityChecker {
 
     private static class CenterResponse {
         private int total;
+        private String next_slot;
 
         public CenterResponse() {
         }
 
-        public CenterResponse(int availabilities) {
-            this.total = availabilities;
+        public CenterResponse(int total, String next_slot) {
+            this.total = total;
+            this.next_slot = next_slot;
         }
 
         public int getTotal() {
             return total;
+        }
+
+        public String getNextSlot() {
+            return next_slot;
         }
     }
 }

@@ -46,18 +46,18 @@ public class AvailabilityScheduler {
         private void printResult(CenterCheckResult result) {
             final var timestamp = LocalDateTime.now().format(formatter);
             String message;
-            final var availableAppointments = result.getAvailableAppointments();
-            if (availableAppointments > 0) {
-                message = String.format("%s:  %-35s: %10d results - %s",
+            final var nextSlot = result.getNextAvailableSlot();
+            if (nextSlot != null && !nextSlot.isBlank()) {
+                message = String.format("%s:  %-35s: %10s - %s",
                         timestamp,
                         result.getCenterName(),
-                        availableAppointments,
+                        nextSlot,
                         result.getBookingUrl());
             } else {
-                message = String.format("%s:  %-35s: %10d results",
+                message = String.format("%s:  %-35s: %10s",
                         timestamp,
                         result.getCenterName(),
-                        availableAppointments);
+                        "no results");
             }
             System.out.println(message);
         }
