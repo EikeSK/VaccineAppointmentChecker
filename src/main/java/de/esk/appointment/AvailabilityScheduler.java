@@ -26,9 +26,9 @@ public class AvailabilityScheduler {
             String message;
             final var availableAppointments = result.getAvailableAppointments();
             if (availableAppointments > 0) {
-                message = String.format("%s: %d results - %s", result.getCenterName(), availableAppointments, result.getBookingUrl());
+                message = String.format("%-30s: %10d results - %s", result.getCenterName(), availableAppointments, result.getBookingUrl());
             } else {
-                message = String.format("%s: %d results", result.getCenterName(), availableAppointments);
+                message = String.format("%-30s: %10d results", result.getCenterName(), availableAppointments);
             }
             System.out.println(message);
         });

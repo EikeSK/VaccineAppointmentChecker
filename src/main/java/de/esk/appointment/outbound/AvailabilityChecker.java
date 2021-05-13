@@ -37,7 +37,7 @@ public class AvailabilityChecker {
             return ofNullable(centerResponse)
                     .map(resp -> createResult(resp, center));
         } catch (IOException ex) {
-            System.out.println("Failed to request " + center.getName());
+            System.out.printf("%-30s: %15s%n", center.getName(), "failed");
             return Optional.empty();
         }
     }
