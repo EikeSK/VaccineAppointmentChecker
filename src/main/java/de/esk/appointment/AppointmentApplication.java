@@ -1,29 +1,40 @@
 package de.esk.appointment;
 
-
+import com.google.gson.Gson;
 import de.esk.appointment.config.VaccineCenterFactory;
+import de.esk.appointment.domain.VaccinceCenter;
+import de.esk.appointment.outbound.AvailabilityChecker;
+import okhttp3.OkHttpClient;
 
-import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AppointmentApplication {
 
 	public static void main(String[] args) {
 
-		VaccineCenterFactory vaccineCenterFactory = null;
+		final Gson gson = new Gson();
+		final OkHttpClient httpClient = new OkHttpClient();
+		final VaccineCenterFactory vaccineCenterFactory = new VaccineCenterFactory();
+		final var centers = vaccineCenterFactory.createInstances();
 
-		try {
-			vaccineCenterFactory = new VaccineCenterFactory();
-		} catch (IOException e) {
-			System.out.println("Failed to load vaccine center configuration");
-		}
-
-		if (vaccineCenterFactory == null || vaccineCenterFactory.createInstances().size() == 0) {
+		if (centers.size() == 0) {
 			System.out.println("No center configured, exiting...");
 			return;
 		}
-		final var centers = vaccineCenterFactory.createInstances();
-		System.out.println("loaded " + centers.size() + " vaccine centers");
 
+		final var availabilityChecker = createAppointmentChecker(centers, gson, httpClient);
+		final var scheduler = new AvailabilityScheduler(availabilityChecker);
+		scheduler.start();
+
+	}
+
+	private static List<AvailabilityChecker> createAppointmentChecker(List<VaccinceCenter> centers,
+																	  Gson gson,
+																	  OkHttpClient httpClient) {
+		return centers.stream()
+				.map(center -> new AvailabilityChecker(center, httpClient, gson))
+				.collect(Collectors.toList());
 	}
 
 }
