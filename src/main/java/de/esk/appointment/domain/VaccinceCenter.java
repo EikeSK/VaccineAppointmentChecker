@@ -1,18 +1,22 @@
 package de.esk.appointment.domain;
 
 public class VaccinceCenter {
-    private final String centerName;
-    private final String bookingUrl;
-    private final String availabilityCheckUrl;
+    private String name;
+    private String bookingUrl;
+    private String availabilityCheckUrl;
 
-    public VaccinceCenter(final String centerName, final String bookingUrl, final String availabilityCheckUrl) {
-        this.centerName = centerName;
+    // for Jackson
+    public VaccinceCenter() {
+    }
+
+    public VaccinceCenter(final String name, final String bookingUrl, final String availabilityCheckUrl) {
+        this.name = name;
         this.bookingUrl = bookingUrl;
         this.availabilityCheckUrl = availabilityCheckUrl;
     }
 
-    public String getCenterName() {
-        return centerName;
+    public String getName() {
+        return name;
     }
 
     public String getBookingUrl() {
